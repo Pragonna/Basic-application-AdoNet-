@@ -1,5 +1,5 @@
 ﻿using ADO.NET_Console_CRUD_application.Entities;
-using ADO.NET_Console_CRUD_application.Entities.Common;
+using ADO.NET_Console_CRUD_application.Enums;
 using ADO.NET_Console_CRUD_application.Repositories.Concured;
 using ADO.NET_Console_CRUD_application.Repositories.EntitiesRepository.ProfessionRepositories;
 using ADO.NET_Console_CRUD_application.Repositories.EntitiesRepository.UserRepositories;
@@ -13,7 +13,7 @@ namespace ADO.NET_Console_CRUD_application.Crud
         // Singleton pattern
 
         private static UserCrud instance = null;
-        public static UserCrud Instance => instance ??= new UserCrud();
+        public static UserCrud Instance => instance ?? (instance= new UserCrud());
 
         private UserWriteRepository userWrite;
         private UserReadRepository userRead;
@@ -26,78 +26,6 @@ namespace ADO.NET_Console_CRUD_application.Crud
             professions = new ProfessionReadRepository();
         }
 
-        private void GetUserFromConsole(out User user)
-        {
-            Console.WriteLine("Press any key to continue..If you want to back Press - [ ESC ]");
-
-            if (Console.ReadKey().Key == ConsoleKey.Escape)
-                Application.UserOption();
-
-            Console.Clear();
-
-            Console.Write("First name\t: ");
-            var firstName = Console.ReadLine();
-            Console.Write("Last name\t: ");
-            var lastName = Console.ReadLine();
-            Console.Write("Day of birth\t: ");
-            var tempDayOfBirth = Console.ReadLine();
-            DateTime dayOfBirth;
-
-            if (!DateTime.TryParse(tempDayOfBirth, out dayOfBirth))
-            {
-                Console.WriteLine("Please Enter the correct date time format (example: 01-01-1999 [between years:1753-2200])\n\nPress any key to continue");
-                Console.ReadKey();
-                Console.Clear();
-                GetUserFromConsole(out user);
-            }
-
-
-            Console.Write("Gender =>\n 1.Male\n 2.Female  =>  ");
-            var gender = Console.ReadLine();
-            var genderType = gender is "1" ? GenderType.Male : gender is "2" ? GenderType.Female : GenderType.DEFAULT;
-            Console.Write("Country\t:");
-            var country = Console.ReadLine();
-            Console.Write("Email\t: ");
-            var email = Console.ReadLine();
-
-            int professionId = 0;
-            Console.WriteLine("Select Profession =>");
-
-            foreach (var p in professions.GetAll())
-            {
-                Console.WriteLine($"ID: {p.Id} -> PROFESSION: {p.ProfessionName} ");
-            }
-
-            var tempProfessionId = Console.ReadLine();
-            int resultProfessionId;
-
-            if (!int.TryParse(tempProfessionId, out resultProfessionId))
-            {
-                Console.WriteLine("Enter the correct option\n\nPress any key to continue");
-                Console.ReadKey();
-                Console.Clear();
-                GetUserFromConsole(out user);
-            }
-
-            foreach (var p in professions.GetAll())
-            {
-                if (resultProfessionId == p.Id)
-                    professionId = p.Id;
-            }
-
-
-            user = new User()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dayOfBirth,
-                Gender = genderType,
-                Country = country,
-                ProfessionId = professionId,
-                Email = email
-            };
-        }
-
         public void Add()
         {
             Console.Clear();
@@ -106,10 +34,12 @@ namespace ADO.NET_Console_CRUD_application.Crud
             if (profession is null)
             {
                 Console.WriteLine("Profession table is a empty. Please add first profession data before user add");
+                Console.ReadKey();
+                return;
             }
 
             User user;
-            GetUserFromConsole(out user);
+            HandleUserFromConsole(out user);
 
             if (UserValidation.IsValid(user))
             {
@@ -158,7 +88,7 @@ namespace ADO.NET_Console_CRUD_application.Crud
 
 
             User user;
-            GetUserFromConsole(out user);
+            HandleUserFromConsole(out user);
             user.Gender = _user.Gender;
 
             if (UserValidation.IsValid(user))
@@ -204,7 +134,7 @@ namespace ADO.NET_Console_CRUD_application.Crud
 
             Console.WriteLine($"First name\t: {_user.FirstName}\nLast name\t: {_user.LastName}\nCountry\t: {_user.Country}\nGender\t: {_user.Gender}\nDate of birth\t: {_user.DateOfBirth}\nProfession name\t: {profession.ProfessionName}\nCreated date\t: {profession.CreatedDate}\n\n--------------------------------------");
 
-            Console.Write($"\n\n\n\t\t\t\t\tAre You Sure deleted User (Id: {_user.Id}) ?\n\t\t\t\t\t   [Y]  or  [N] \n \t\t\t\t\t : ");
+            Console.Write($"\n\n\n\t\t\t\t\tAre You Sure to delete User`s data (Id: {_user.Id}) ?\n\t\t\t\t\t   [Y]  or  [N] \n \t\t\t\t\t : ");
 
             if (Console.ReadKey().Key == ConsoleKey.Y)
             {
@@ -285,5 +215,76 @@ namespace ADO.NET_Console_CRUD_application.Crud
             Application.UserOption();
         }
 
+        private void HandleUserFromConsole(out User user)
+        {
+            Console.WriteLine("Press any key to continue..\nIf you want to back Press - [ ESC ]");
+
+            if (Console.ReadKey().Key == ConsoleKey.Escape)
+                Application.UserOption();
+
+            Console.Clear();
+
+            Console.Write("First name\t: ");
+            var firstName = Console.ReadLine();
+            Console.Write("Last name\t: ");
+            var lastName = Console.ReadLine();
+            Console.Write("Day of birth\t: ");
+            var tempDayOfBirth = Console.ReadLine();
+            DateTime dayOfBirth;
+
+            if (!DateTime.TryParse(tempDayOfBirth, out dayOfBirth))
+            {
+                Console.WriteLine("Please Enter the correct date time format (example: 01-01-1999 [between years:1753-2200])\n\nPress any key to continue");
+                Console.ReadKey();
+                Console.Clear();
+                HandleUserFromConsole(out user);
+            }
+
+
+            Console.Write("Gender =>\n 1.Male\n 2.Female  =>  ");
+            var gender = Console.ReadLine();
+            var genderType = gender is "1" ? GenderType.Male : gender is "2" ? GenderType.Female : GenderType.DEFAULT;
+            Console.Write("Country\t:");
+            var country = Console.ReadLine();
+            Console.Write("Email\t: ");
+            var email = Console.ReadLine();
+
+            int professionId = 0;
+            Console.WriteLine("Select Profession =>");
+
+            foreach (var p in professions.GetAll())
+            {
+                Console.WriteLine($"ID: {p.Id} -> PROFESSION: {p.ProfessionName} ");
+            }
+
+            var tempProfessionId = Console.ReadLine();
+            int resultProfessionId;
+
+            if (!int.TryParse(tempProfessionId, out resultProfessionId))
+            {
+                Console.WriteLine("Enter the correct option\n\nPress any key to continue");
+                Console.ReadKey();
+                Console.Clear();
+                HandleUserFromConsole(out user);
+            }
+
+            foreach (var p in professions.GetAll())
+            {
+                if (resultProfessionId == p.Id)
+                    professionId = p.Id;
+            }
+
+
+            user = new User()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dayOfBirth,
+                Gender = genderType,
+                Country = country,
+                ProfessionId = professionId,
+                Email = email
+            };
+        }
     }
 }

@@ -1,26 +1,22 @@
 ﻿using ADO.NET_Console_CRUD_application.Context;
 using ADO.NET_Console_CRUD_application.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ADO.NET_Console_CRUD_application.Enums;
 
 namespace ADO.NET_Console_CRUD_application.Repositories.EntitiesRepository.UserRepositories
 {
     public class UserWriteRepository : IWriteRepository<User>
     {
-        private SqlWriterContext userContext;
+        private  readonly SqlWriterContext userContext;
 
         public UserWriteRepository()
         {
-            userContext = SqlWriterContext.Instance;
+            userContext = new SqlWriterContext();
         }
         public void Insert(User entity)
         {
             bool isFemale = false;
 
-            if (entity.Gender is Entities.Common.GenderType.Female)
+            if (entity.Gender is GenderType.Female)
                 isFemale = true;
 
             userContext.UserInsertData(

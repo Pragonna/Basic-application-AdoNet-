@@ -11,10 +11,10 @@ namespace ADO.NET_Console_CRUD_application.Repositories.Interfaces
     public interface IReadRepository<T> : IRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
-        IEnumerable<T> WhereFocus(Func<T, bool> predicate);
+        IEnumerable<T> WhereFocus( Func<T, bool> predicate);
         T FirstOrDefaultFocus(Func<T, bool> predicate);
         T FindById(int id);
-        IEnumerable<T> ToListByCreatedDateDescending();
+        IEnumerable<T> ToListByCreatedDateByDescending();
 
     }
 }

@@ -163,6 +163,7 @@ namespace ADO.NET_Console_CRUD_application.Crud
             {
                 Console.WriteLine("This profession has not been found");
                 Console.WriteLine("Press any key to continue\nPress ESC to back main page...");
+
                 if (Console.ReadKey().Key is ConsoleKey.Escape)
                     Application.ProfessionOption();
                 else

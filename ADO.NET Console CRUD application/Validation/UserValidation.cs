@@ -1,4 +1,5 @@
 ﻿using ADO.NET_Console_CRUD_application.Entities;
+using ADO.NET_Console_CRUD_application.Enums;
 
 
 namespace ADO.NET_Console_CRUD_application.Validation
@@ -18,7 +19,7 @@ namespace ADO.NET_Console_CRUD_application.Validation
                 arr[2] = true;
             if (user.Country is not null)
                 arr[3] = true;
-            if (user.Gender is not Entities.Common.GenderType.DEFAULT)
+            if (user.Gender is not GenderType.DEFAULT)
                 arr[4] = true;
             if (user.ProfessionId > 0)
                 arr[5] = true;

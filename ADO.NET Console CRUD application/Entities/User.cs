@@ -1,4 +1,5 @@
 ﻿using ADO.NET_Console_CRUD_application.Entities.Common;
+using ADO.NET_Console_CRUD_application.Enums;
 
 
 namespace ADO.NET_Console_CRUD_application.Entities

@@ -1,5 +1,5 @@
 ﻿using ADO.NET_Console_CRUD_application.Entities;
-using ADO.NET_Console_CRUD_application.Entities.Common;
+using ADO.NET_Console_CRUD_application.Enums;
 using System.Data.SqlClient;
 
 
@@ -7,106 +7,117 @@ namespace ADO.NET_Console_CRUD_application.Context
 {
     public class SqlReaderContext
     {
-        private SqlConnection connection;
-        private SqlCommand command;
-        public SqlReaderContext()
-        {
-            connection = new SqlConnection();
-            command = new SqlCommand();
-            connection.ConnectionString = Configuration.ConnectionString;
-            command.Connection = connection;
-        }
         public List<User> UserReadData()
         {
             List<User> users = new List<User>();
 
-            string cmd = "Select * from Users";
-            command.CommandText = cmd;
-            connection.Open();
-            var dr = command.ExecuteReader();
-
-            while (dr.Read())
+            using (var connection = new SqlConnection(Configuration.ConnectionString))
             {
-                var isFemale = Convert.ToBoolean(dr["IsFemale"]);
+                var command = connection.CreateCommand();
+                command.CommandText = "Select * from Users";
+                connection.Open();
 
-                var obj = new User
+                using (var dr = command.ExecuteReader())
                 {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    FirstName = dr["FirstName"].ToString(),
-                    LastName = dr["LastName"].ToString(),
-                    ProfessionId = Convert.ToInt32(dr["ProfessionId"]),
-                    DateOfBirth = Convert.ToDateTime(dr["DayOfBirth"]),
-                    Country = dr["Country"].ToString(),
-                    Email = dr["Email"].ToString(),
-                    Gender = isFemale is true ? GenderType.Female : GenderType.Male,
-                    CreatedDate = Convert.ToDateTime(dr["CreatedDate"].ToString())
-                };
+                    while (dr.Read())
+                    {
+                        var isFemale = Convert.ToBoolean(dr["IsFemale"]);
 
-                users.Add(obj);
+                        var obj = new User
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            FirstName = dr["FirstName"].ToString(),
+                            LastName = dr["LastName"].ToString(),
+                            ProfessionId = Convert.ToInt32(dr["ProfessionId"]),
+                            DateOfBirth = Convert.ToDateTime(dr["DayOfBirth"]),
+                            Country = dr["Country"].ToString(),
+                            Email = dr["Email"].ToString(),
+                            Gender = isFemale is true ? GenderType.Female : GenderType.Male,
+                            CreatedDate = Convert.ToDateTime(dr["CreatedDate"].ToString())
+                        };
+
+                        users.Add(obj);
+                    }
+
+                }
+
+                return users;
             }
-            connection.Close();
-
-            return users;
         }
 
         public List<Profession> ProfessionsReadData()
         {
             List<Profession> professions = new List<Profession>();
 
-            string cmd = "Select * from Professions";
-            command.CommandText = cmd;
-            connection.Open();
-            var dr = command.ExecuteReader();
-
-            while (dr.Read())
+            using (var connection = new SqlConnection(Configuration.ConnectionString))
             {
-                var obj = new Profession
+                var command = connection.CreateCommand();
+                command.CommandText = "Select * from Professions";
+                connection.Open();
+
+                using (var dr = command.ExecuteReader())
                 {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    ProfessionName = dr["ProfessionName"].ToString(),
-                    CreatedDate = Convert.ToDateTime(dr["CreatedDate"].ToString())
-                };
+                    while (dr.Read())
+                    {
+                        var obj = new Profession
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            ProfessionName = dr["ProfessionName"].ToString(),
+                            CreatedDate = Convert.ToDateTime(dr["CreatedDate"].ToString())
+                        };
 
-                professions.Add(obj);
+                        professions.Add(obj);
+                    }
+                }
+                return professions;
             }
-            connection.Close();
 
-            return professions;
         }
-        public List<UserWithProfession> GetUserProfession()
+
+        public List<UserProfession> GetUserProfession()
         {
-            List<UserWithProfession> userWithProfessions = new List<UserWithProfession>();
+            List<UserProfession> userWithProfessions = new List<UserProfession>();
 
-            bool isFemale = false;
-
-            string cmd = "SELECT Users.Id,Users.FirstName, Users.LastName,Users.Country, Professions.ProfessionName,Users.DayOfBirth,Users.IsFemale,Users.CreatedDate\r\nFROM Users JOIN Professions ON Users.ProfessionId=Professions.Id";
-
-            command.CommandText = cmd;
-
-            connection.Open();
-            var dr = command.ExecuteReader();
-
-            while (dr.Read())
+            using (var connection = new SqlConnection(Configuration.ConnectionString))
             {
-                isFemale = dr.GetBoolean(6);
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT
+                                           u.Id,
+                                           u.FirstName,
+                                           u.LastName,
+                                           u.Country,
+                                           p.ProfessionName,
+                                           u.DayOfBirth,
+                                           u.IsFemale,
+                                           u.CreatedDate
+                                        FROM Users u
+                                        JOIN Professions p ON u.ProfessionId = p.Id";
 
-                var obj = new UserWithProfession
+                connection.Open();
+                using (var dr = command.ExecuteReader())
                 {
-                    Id = dr.GetInt32(0),
-                    FirstName = dr.GetString(1),
-                    LastName = dr.GetString(2),
-                    Country = dr.GetString(3),
-                    ProfessionName = dr.GetString(4),
-                    DateTime = dr.GetDateTime(5),
-                    Gender = isFemale is true ? GenderType.Female : GenderType.Male,
-                    CreatedDate = dr.GetDateTime(7)
-                };
+                    while (dr.Read())
+                    {
+                        var obj = new UserProfession
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            FirstName = dr["FirstName"].ToString(),
+                            LastName = dr["LastName"].ToString(),
+                            Country = dr["Country"].ToString(),
+                            ProfessionName = dr["ProfessionName"].ToString(),
+                            DateTime = DateTime.Parse(dr["DayOfBirth"].ToString()),
+                            Gender = Convert.ToBoolean(dr["IsFemale"]) is true ? GenderType.Female : GenderType.Male,
+                            CreatedDate = DateTime.Parse(dr["CreatedDate"].ToString())
+                        };
 
-                userWithProfessions.Add(obj);
+                        userWithProfessions.Add(obj);
+                    }
+
+                }
+
+                return userWithProfessions;
             }
-            connection.Close();
-
-            return userWithProfessions;
         }
     }
 }
+

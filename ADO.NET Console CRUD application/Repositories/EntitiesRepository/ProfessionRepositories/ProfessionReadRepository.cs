@@ -11,40 +11,20 @@ namespace ADO.NET_Console_CRUD_application.Repositories.EntitiesRepository.Profe
 {
     public class ProfessionReadRepository : IReadRepository<Profession>
     {
-        private readonly List<Profession> professions;
-        public ProfessionReadRepository()
-        {
-            professions = new SqlReaderContext().ProfessionsReadData();
-        }
+        public Profession FindById(int id) =>
+            new SqlReaderContext().ProfessionsReadData().First(x => x.Id == id);
 
-        public Profession FindById(int id)
-        {
-            return professions.First(x => x.Id == id);
-        }
+        public Profession FirstOrDefaultFocus(Func<Profession, bool> predicate) =>
+            new SqlReaderContext().ProfessionsReadData().FirstOrDefault(predicate);
 
-        public Profession FirstOrDefaultFocus(Func<Profession, bool> predicate)
-        {
-            var profession =new SqlReaderContext().ProfessionsReadData().FirstOrDefault(predicate);
+        public IEnumerable<Profession> GetAll() =>
+            new SqlReaderContext().ProfessionsReadData();
 
-            if (profession is null)
-                return default;
+        public IEnumerable<Profession> ToListByCreatedDateByDescending() =>
+            new SqlReaderContext().ProfessionsReadData().OrderByDescending(p => p.CreatedDate);
 
-            return profession;
-        }
+        public IEnumerable<Profession> WhereFocus(Func<Profession, bool> predicate) =>
+            new SqlReaderContext().ProfessionsReadData().Where(predicate);
 
-        public IEnumerable<Profession> GetAll()
-        {
-            return new SqlReaderContext().ProfessionsReadData();
-        }
-
-        public IEnumerable<Profession> ToListByCreatedDateDescending()
-        {
-            return professions.OrderByDescending(p => p.CreatedDate);
-        }
-
-        public IEnumerable<Profession> WhereFocus(Func<Profession, bool> predicate)
-        {
-            return new SqlReaderContext().ProfessionsReadData().Where(predicate);
-        }
     }
 }

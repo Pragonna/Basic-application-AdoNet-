@@ -28,3 +28,4 @@ C:\Users\User\source\repos\ADONET\ADO.NET Console CRUD application\bin\Debug\net
 C:\Users\User\source\repos\ADONET\ADO.NET Console CRUD application\bin\Debug\net7.0\runtimes\win-x86\native\sni.dll
 C:\Users\User\source\repos\ADONET\ADO.NET Console CRUD application\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\User\source\repos\ADONET\ADO.NET Console CRUD application\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\User\source\repos\ADONET\ADO.NET Console CRUD application\obj\Debug\net7.0\ADO.NET Console CRUD application.sourcelink.json

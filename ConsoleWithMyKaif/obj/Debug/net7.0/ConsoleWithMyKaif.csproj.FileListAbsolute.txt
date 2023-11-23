@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\bin\Debug\net7.0\ConsoleWithMyKaif.exe
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\bin\Debug\net7.0\ConsoleWithMyKaif.deps.json
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\bin\Debug\net7.0\ConsoleWithMyKaif.runtimeconfig.json
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\bin\Debug\net7.0\ConsoleWithMyKaif.dll
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\bin\Debug\net7.0\ConsoleWithMyKaif.pdb
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.AssemblyInfo.cs
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.dll
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\refint\ConsoleWithMyKaif.dll
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.pdb
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ConsoleWithMyKaif.genruntimeconfig.cache
+C:\Users\User\source\repos\ADONET\ConsoleWithMyKaif\obj\Debug\net7.0\ref\ConsoleWithMyKaif.dll

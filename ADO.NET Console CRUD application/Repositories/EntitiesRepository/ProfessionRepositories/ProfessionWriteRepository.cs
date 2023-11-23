@@ -1,19 +1,14 @@
 ﻿using ADO.NET_Console_CRUD_application.Context;
 using ADO.NET_Console_CRUD_application.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ADO.NET_Console_CRUD_application.Repositories.EntitiesRepository.ProfessionRepositories
 {
     public class ProfessionWriteRepository : IWriteRepository<Profession>
     {
-        private SqlWriterContext professionContext;
+        private readonly SqlWriterContext professionContext;
         public ProfessionWriteRepository()
         {
-            professionContext=SqlWriterContext.Instance;
+            professionContext=new SqlWriterContext();
         }
         public void Delete(int id)
         {
