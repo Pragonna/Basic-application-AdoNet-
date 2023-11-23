@@ -5,7 +5,7 @@ using ADO.NET_Console_CRUD_application.Validation;
 
 namespace ADO.NET_Console_CRUD_application.Crud
 {
-    public class ProfessionCrud
+    public class ProfessionCrud:ICrud
     {
         private static ProfessionCrud instance = null;
         public static ProfessionCrud Instance=>instance?? (instance = new ProfessionCrud());

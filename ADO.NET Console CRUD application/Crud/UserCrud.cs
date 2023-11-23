@@ -8,12 +8,12 @@ using ADO.NET_Console_CRUD_application.Validation;
 
 namespace ADO.NET_Console_CRUD_application.Crud
 {
-    public class UserCrud
+    public class UserCrud : ICrud
     {
         // Singleton pattern
 
         private static UserCrud instance = null;
-        public static UserCrud Instance => instance ?? (instance= new UserCrud());
+        public static UserCrud Instance => instance ?? (instance = new UserCrud());
 
         private UserWriteRepository userWrite;
         private UserReadRepository userRead;
