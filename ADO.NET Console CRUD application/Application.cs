@@ -14,7 +14,7 @@ namespace ADO.NET_Console_CRUD_application
             StartApplication();
         }
 
-        private static void StartApplication()
+        public static void StartApplication()
         {
             Console.Clear();
             Console.WriteLine("\t\tSELECT ENTITY\n");

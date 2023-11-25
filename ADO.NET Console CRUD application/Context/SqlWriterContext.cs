@@ -13,10 +13,12 @@ namespace ADO.NET_Console_CRUD_application.Context
             bool isFemale,
             int professionId)
         {
-            using (var connection = new SqlConnection(Configuration.ConnectionString))
+            try
             {
-                var command = connection.CreateCommand();
-                command.CommandText = @"INSERT INTO Users (
+                using (var connection = new SqlConnection(Configuration.ConnectionString))
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"INSERT INTO Users (
                                                          FirstName,
                                                          LastName,
                                                          DayOfBirth,
@@ -25,16 +27,26 @@ namespace ADO.NET_Console_CRUD_application.Context
                                                          CreatedDate,
                                                          ProfessionId) 
                                                          Values (@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8)";
-                command.Parameters.AddWithValue("@p1", firstName);
-                command.Parameters.AddWithValue("@p2", lastName);
-                command.Parameters.AddWithValue("@p3", date);
-                command.Parameters.AddWithValue("@p4", country);
-                command.Parameters.AddWithValue("@p5", email);
-                command.Parameters.AddWithValue("@p6", isFemale);
-                command.Parameters.AddWithValue("@p7", DateTime.UtcNow);
-                command.Parameters.AddWithValue("@p8", professionId);
-                connection.Open();
-                command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@p1", firstName);
+                    command.Parameters.AddWithValue("@p2", lastName);
+                    command.Parameters.AddWithValue("@p3", date);
+                    command.Parameters.AddWithValue("@p4", country);
+                    command.Parameters.AddWithValue("@p5", email);
+                    command.Parameters.AddWithValue("@p6", isFemale);
+                    command.Parameters.AddWithValue("@p7", DateTime.UtcNow);
+                    command.Parameters.AddWithValue("@p8", professionId);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Your connection has been declared");
+                throw new Exception(@"Bad request to database");
+            }
+            finally
+            {
+                Application.StartApplication();
             }
         }
 
@@ -50,8 +62,10 @@ namespace ADO.NET_Console_CRUD_application.Context
 
             using (var connection = new SqlConnection(Configuration.ConnectionString))
             {
-                var command = connection.CreateCommand();
-                command.CommandText = @"UPDATE Users SET 
+                try
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"UPDATE Users SET 
                                                         FirstName=@p1,
                                                         LastName=@p2,
                                                         DayOfBirth=@p3,
@@ -60,71 +74,129 @@ namespace ADO.NET_Console_CRUD_application.Context
                                                         ProfessionId=@p6 
                                                         WHERE Id=@p7";
 
-                command.Parameters.AddWithValue("@p1", firstName);
-                command.Parameters.AddWithValue("@p2", lastName);
-                command.Parameters.AddWithValue("@p3", date);
-                command.Parameters.AddWithValue("@p4", country);
-                command.Parameters.AddWithValue("@p5", email);
-                command.Parameters.AddWithValue("@p6", professionId);
-                command.Parameters.AddWithValue("@p7", id);
+                    command.Parameters.AddWithValue("@p1", firstName);
+                    command.Parameters.AddWithValue("@p2", lastName);
+                    command.Parameters.AddWithValue("@p3", date);
+                    command.Parameters.AddWithValue("@p4", country);
+                    command.Parameters.AddWithValue("@p5", email);
+                    command.Parameters.AddWithValue("@p6", professionId);
+                    command.Parameters.AddWithValue("@p7", id);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    Console.WriteLine("Your connection has been declared");
+                    throw new Exception(@"Bad request to database");
+                }
+                finally
+                {
+                    Application.StartApplication();
+                }
             }
         }
 
         public void UserDeleteData(int id)
         {
-            using (var connection = new SqlConnection(Configuration.ConnectionString))
+            try
             {
-                var command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Users WHERE Id=@p1";
-                command.Parameters.AddWithValue("@p1", id);
-                connection.Open();
-                command.ExecuteNonQuery();
+                using (var connection = new SqlConnection(Configuration.ConnectionString))
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM Users WHERE Id=@p1";
+                    command.Parameters.AddWithValue("@p1", id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Your connection has been declared");
+                throw new Exception(@"Bad request to database");
+            }
+            finally
+            {
+                Application.StartApplication();
             }
         }
 
         public void ProfessionInsertData(string professionName)
         {
-            using (var connection = new SqlConnection(Configuration.ConnectionString))
+            try
             {
-                var command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Professions (ProfessionName,CreatedDate) Values (@p1,@p2)";
-                command.Parameters.AddWithValue("@p1", professionName);
-                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                using (var connection = new SqlConnection(Configuration.ConnectionString))
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO Professions (ProfessionName,CreatedDate) Values (@p1,@p2)";
+                    command.Parameters.AddWithValue("@p1", professionName);
+                    command.Parameters.AddWithValue("@p2", DateTime.Now);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Your connection has been declared");
+                throw new Exception(@"Bad request to database");
+            }
+            finally
+            {
+                Application.StartApplication();
             }
         }
 
         public void ProfessionUpdateData(int id, string professionName)
         {
-            using (var connection = new SqlConnection(Configuration.ConnectionString))
+            try
             {
-                var command = connection.CreateCommand();
-                command.CommandText = "UPDATE Professions SET ProfessionName=@p1 WHERE Id=@p2";
+                using (var connection = new SqlConnection(Configuration.ConnectionString))
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Professions SET ProfessionName=@p1 WHERE Id=@p2";
 
-                command.Parameters.AddWithValue("@p1", professionName);
-                command.Parameters.AddWithValue("@p2", id);
+                    command.Parameters.AddWithValue("@p1", professionName);
+                    command.Parameters.AddWithValue("@p2", id);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Your connection has been declared");
+                throw new Exception(@"Bad request to database");
+            }
+            finally
+            {
+                Application.StartApplication();
             }
         }
 
         public void ProfessionDeleteData(int id)
         {
-            using (var connection = new SqlConnection(Configuration.ConnectionString))
+            try
             {
-                var command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Professions WHERE Id=@p1";
+                using (var connection = new SqlConnection(Configuration.ConnectionString))
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM Professions WHERE Id=@p1";
 
-                command.Parameters.AddWithValue("@p1", id);
+                    command.Parameters.AddWithValue("@p1", id);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Your connection has been declared");
+                throw new Exception(@"Bad request to database");
+            }
+            finally
+            {
+                Application.StartApplication();
             }
         }
     }
